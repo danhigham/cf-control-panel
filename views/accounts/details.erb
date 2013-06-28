@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="span3">
+    <%= erb :'accounts/_account_list', :locals => { :accounts => accounts } %>
+    <hr />
+    <a href="/accounts/add_new"><div class="btn btn-success btn-block"><i class="icon-plus icon-white"></i> Add new account</div></a>
+  </div>
+  <div class="span9" id="main-pane">
+    <div class="inner">
+      <div id="account-tab-view">
+        <!-- org dropdown -->
+        <select id="org-list" class="pull-right"></select>
+        <ul id="space-list" class="nav nav-tabs"></ul>
+
+        <div id="app-tables"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/template" id="org-template">{{=name}}</script>
+<script type="text/template" id="space-template"><a href="#">{{=name}}</a></script>
+
+<script type="text/template" id="apps-template">
+  <tr>
+    <th>App Name</th>
+    <th>Instances</th>
+    <th>Memory</th>
+    <th>State</th>
+    <th>URL</th>
+  </tr>
+  {{ _.each(summary.apps, function(app){ }}
+    <tr>
+      <td>{{= app.name}}</td>
+      <td>{{= app.instances}}</td>
+      <td>{{= app.memory}}</td>
+      <td>{{= app.state}}</td>
+      <td>{{= app.urls[0]}}</td>
+    </tr>
+  {{ }); }}
+</script>
+
+<% content_for :scripts do %>
+  <script type="text/javascript" src="/js/accounts.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function (){
+      var accountView = new AccountView();
+      accountView.fetchAccounts(<%= account.id %>);
+
+      window.accountView = accountView;
+    });
+  </script>
+<% end %>

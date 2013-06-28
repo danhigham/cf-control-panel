@@ -1,0 +1,5 @@
+<ul class="nav nav-list sidenav">
+  <% accounts.each do |a| %>
+    <li class="<%= active_link("/accounts/#{a.id}") %>"><a href="/accounts/<%= a.id %>/details"><i class="icon-chevron-right"></i> <%= a.name %></a></li>
+  <% end %>
+</ul>
