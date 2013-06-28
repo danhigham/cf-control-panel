@@ -2,6 +2,7 @@ require 'sequel'
 require 'uuidtools'
 require 'cfoundry'
 require 'date'
+require 'cf_control_panel/validation_helper'
 
 module CFControlPanel
   module Models
@@ -52,12 +53,29 @@ module CFControlPanel
     end
 
     class User < Sequel::Model
+      include CFControlPanel::ValidationHelper
 
+      plugin :validation_helpers
       one_to_many :accounts, :class=>"CFControlPanel::Models::Account", :key=>:user_id
+
+      def validate
+        super
+        
+        # ID
+        validates_presence :id
+        validates_unique :id
+
+        # EMAIL
+        validates_format email_regex, :email 
+        validates_presence :email
+        validates_unique :email
+      end
+
     end
 
   end
 end
 
 Sequel::Model.plugin :timestamps
+CFControlPanel::Models::User.plugin :timestamps, :create=>:created_on, :update=>:updated_on, :force=>true, :update_on_create=>true
 CFControlPanel::Models::Account.plugin :timestamps, :create=>:created_on, :update=>:updated_on, :force=>true, :update_on_create=>true

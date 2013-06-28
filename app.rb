@@ -27,7 +27,7 @@ module CFControlPanel
     set :root, File.dirname(__FILE__)
     set :public_folder, File.dirname(__FILE__) + '/public'
 
-    AUTH_EXCEPTIONS = %w{/auth /login /intro}
+    AUTH_EXCEPTIONS = %w{/auth /login /intro} # Allow viewing these pages without auth
     PROD_DB_URL = ENV['PROD_DB_URL']
 
     #use OmniAuth::Strategies::Twitter, 'Kp9THFHyOduYm3p8BrLQQ', 'f3kkG47FzMCvh45ee5ddBFwHW7QSzfb479z0JTehrR4'
